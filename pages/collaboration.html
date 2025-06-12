@@ -1,0 +1,255 @@
+<div class="container-fluid">
+    <h2 class="mt-4 mb-3">端到端协同功能</h2>
+
+    <!-- 数据打通 -->
+    <div class="card">
+        <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+            <h5 class="mb-0"><i class="fa fa-database me-2"></i>数据打通</h5>
+            <span class="status-badge status-success">运行中</span>
+        </div>
+        <div class="card-body">
+            <p>建立统一数据模型，整合市场、销售、研发、物控数据，实现跨部门数据共享。</p>
+            
+            <!-- Nav tabs -->
+            <ul class="nav nav-tabs" id="dataTab" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="data-model-tab" data-bs-toggle="tab" data-bs-target="#data-model" type="button" role="tab" aria-controls="data-model" aria-selected="true">统一数据模型</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="data-share-tab" data-bs-toggle="tab" data-bs-target="#data-share" type="button" role="tab" aria-controls="data-share" aria-selected="false">数据共享</button>
+                </li>
+            </ul>
+
+            <!-- Tab panes -->
+            <div class="tab-content pt-3">
+                <div class="tab-pane active" id="data-model" role="tabpanel" aria-labelledby="data-model-tab">
+                    <h4>统一数据模型</h4>
+                    <p class="text-muted">建立One-ID/One-Data体系，实现跨部门数据互通。</p>
+
+                    <!-- 功能实现细化 -->
+                    <div class="card mb-4">
+                        <div class="card-header bg-light" data-bs-toggle="collapse" href="#collapse-unified-data-model" role="button" aria-expanded="false" aria-controls="collapse-unified-data-model">
+                            <h6 class="mb-0 d-flex justify-content-between">
+                                <span><i class="fa fa-cogs me-2"></i>功能实现细化</span>
+                                <i class="fa fa-chevron-down toggle-icon"></i>
+                            </h6>
+                        </div>
+                        <div class="collapse" id="collapse-unified-data-model">
+                            <div class="card-body">
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item">
+                                        <strong>1. One-ID体系:</strong>
+                                        <p class="mb-1 small text-muted">以用户为中心，打通不同平台（淘宝、微信、抖音等）的用户身份，形成唯一的全局用户ID（Global User ID），关联其所有行为和订单数据。</p>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <strong>2. One-Data体系:</strong>
+                                        <p class="mb-1 small text-muted">建立统一的数据仓库（Data Warehouse）和数据指标体系。例如，定义统一的“销售额”口径，确保各部门在分析时使用同一套标准。</p>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <strong>3. 数据血缘与治理:</strong>
+                                        <p class="mb-1 small text-muted">引入数据血缘（Data Lineage）工具，追踪数据从源头到最终报表的完整链路，确保数据的透明、可追溯。建立数据质量监控和治理流程。</p>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card shadow-sm">
+                        <div class="card-header bg-white">
+                            <h6 class="mb-0"><i class="fa fa-sitemap"></i> 统一数据模型架构</h6>
+                        </div>
+                        <div class="card-body text-center">
+                             <img src="https://via.placeholder.com/600x300.png?text=统一数据模型架构图" class="img-fluid rounded">
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane" id="data-share" role="tabpanel" aria-labelledby="data-share-tab">
+                    <h4>数据共享</h4>
+                    <p class="text-muted">通过API/BI报表，实现跨部门数据共享。</p>
+
+                    <!-- 功能实现细化 -->
+                    <div class="card mb-4">
+                        <div class="card-header bg-light" data-bs-toggle="collapse" href="#collapse-data-sharing" role="button" aria-expanded="false" aria-controls="collapse-data-sharing">
+                            <h6 class="mb-0 d-flex justify-content-between">
+                                <span><i class="fa fa-cogs me-2"></i>功能实现细化</span>
+                                <i class="fa fa-chevron-down toggle-icon"></i>
+                            </h6>
+                        </div>
+                        <div class="collapse" id="collapse-data-sharing">
+                            <div class="card-body">
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item">
+                                        <strong>1. 统一数据服务API:</strong>
+                                        <p class="mb-1 small text-muted">提供统一的数据服务层（Data Service API），各业务系统（如CRM、ERP）通过API调用所需数据，避免直接访问底层数据库，保证安全和稳定。</p>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <strong>2. 自助式BI报表平台:</strong>
+                                        <p class="mb-1 small text-muted">引入Tableau、Power BI或开源的Superset等BI工具，业务人员可以根据权限，通过拖拽的方式自助分析数据，制作报表。</p>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <strong>3. 权限管理与数据安全:</strong>
+                                        <p class="mb-1 small text-muted">建立严格的权限管理体系，确保不同岗位的员工只能看到其业务所需的数据，防止数据泄露。</p>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card shadow-sm">
+                        <div class="card-header bg-white">
+                            <h6 class="mb-0"><i class="fa fa-bar-chart"></i> 自助式BI报表示例</h6>
+                        </div>
+                        <div class="card-body text-center">
+                            <p class="mb-2"><strong>报表名称:</strong> 2025年Q2销售数据分析</p>
+                            <img src="https://via.placeholder.com/600x350.png?text=BI报表截图" class="img-fluid rounded border">
+                            <a href="#" class="btn btn-primary mt-3">访问BI平台</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 流程协同 -->
+    <div class="card mt-4">
+        <div class="card-header bg-info text-white d-flex justify-content-between align-items-center">
+            <h5 class="mb-0"><i class="fa fa-random me-2"></i>流程协同</h5>
+            <span class="status-badge status-success">运行中</span>
+        </div>
+        <div class="card-body">
+            <p>基于AI Agent，实现跨部门流程自动化，如退货原因自动同步至研发端。</p>
+            
+            <!-- Nav tabs -->
+            <ul class="nav nav-tabs" id="flowTab" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="cross-dept-flow-tab" data-bs-toggle="tab" data-bs-target="#cross-dept-flow" type="button" role="tab" aria-controls="cross-dept-flow" aria-selected="true">跨部门流程</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="ai-agent-tab" data-bs-toggle="tab" data-bs-target="#ai-agent" type="button" role="tab" aria-controls="ai-agent" aria-selected="false">AI Agent</button>
+                </li>
+            </ul>
+
+            <!-- Tab panes -->
+            <div class="tab-content pt-3">
+                <div class="tab-pane active" id="cross-dept-flow" role="tabpanel" aria-labelledby="cross-dept-flow-tab">
+                    <h4>跨部门流程</h4>
+                    <p class="text-muted">退货原因自动同步至研发端，形成闭环。</p>
+
+                    <!-- 功能实现细化 -->
+                    <div class="card mb-4">
+                        <div class="card-header bg-light" data-bs-toggle="collapse" href="#collapse-cross-department-workflow" role="button" aria-expanded="false" aria-controls="collapse-cross-department-workflow">
+                            <h6 class="mb-0 d-flex justify-content-between">
+                                <span><i class="fa fa-cogs me-2"></i>功能实现细化</span>
+                                <i class="fa fa-chevron-down toggle-icon"></i>
+                            </h6>
+                        </div>
+                        <div class="collapse" id="collapse-cross-department-workflow">
+                            <div class="card-body">
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item">
+                                        <strong>1. 流程设计器:</strong>
+                                        <p class="mb-1 small text-muted">提供可视化的流程设计器（类似BPMN），业务人员可以拖拽节点，定义跨部门的自动化流程。</p>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <strong>2. 触发器与事件:</strong>
+                                        <p class="mb-1 small text-muted">流程由事件触发。例如，“客服在系统中将一个退货原因标记为‘尺码问题’”这个事件，会触发“同步信息给研发”的流程。</p>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <strong>3. 任务自动创建与通知:</strong>
+                                        <p class="mb-1 small text-muted">流程启动后，会在相关人员的待办事项列表中自动创建任务（如“分析XX商品尺码问题”），并通过钉钉/企业微信发送通知。</p>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <strong>4. 流程监控与分析:</strong>
+                                        <p class="mb-1 small text-muted">系统会记录每个流程的执行状态和耗时，帮助管理者发现流程瓶颈，并进行优化。</p>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card shadow-sm">
+                        <div class="card-header bg-white">
+                            <h6 class="mb-0"><i class="fa fa-retweet"></i> 跨部门流程示例：退货原因闭环</h6>
+                        </div>
+                        <div class="card-body text-center">
+                             <img src="https://via.placeholder.com/600x250.png?text=退货原因处理流程图" class="img-fluid rounded">
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane" id="ai-agent" role="tabpanel" aria-labelledby="ai-agent-tab">
+                    <h4>AI Agent</h4>
+                    <p class="text-muted">AI Agent自动执行跨部门任务，如“分析上周连衣裙退货原因并输出报告”。</p>
+
+                    <!-- 功能实现细化 -->
+                    <div class="card mb-4">
+                        <div class="card-header bg-light" data-bs-toggle="collapse" href="#collapse-ai-agent-collaboration" role="button" aria-expanded="false" aria-controls="collapse-ai-agent-collaboration">
+                            <h6 class="mb-0 d-flex justify-content-between">
+                                <span><i class="fa fa-cogs me-2"></i>功能实现细化</span>
+                                <i class="fa fa-chevron-down toggle-icon"></i>
+                            </h6>
+                        </div>
+                        <div class="collapse" id="collapse-ai-agent-collaboration">
+                            <div class="card-body">
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item">
+                                        <strong>1. 自然语言理解 (NLU):</strong>
+                                        <p class="mb-1 small text-muted">基于大语言模型（LLM），AI Agent能理解复杂的自然语言指令，并将其拆解为一系列可执行的子任务。</p>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <strong>2. 工具调用 (Tool Calling):</strong>
+                                        <p class="mb-1 small text-muted">Agent被授权调用系统中所有模块的API（工具），例如“查询销量”、“分析评论”、“创建生产单”等。</p>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <strong>3. 任务规划与执行:</strong>
+                                        <p class="mb-1 small text-muted">对于一个复杂指令，Agent会自主规划步骤（Plan），然后按顺序调用工具来执行（Execute），直到完成最终目标。</p>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <strong>4. 人机确认与交互:</strong>
+                                        <p class="mb-1 small text-muted">在执行关键操作（如“下达生产单”）前，Agent会主动向用户请求确认。用户也可以在任何步骤中进行干预和修正。</p>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card shadow-sm">
+                        <div class="card-header bg-white">
+                            <h6 class="mb-0"><i class="fa fa-rocket"></i> AI Agent 交互示例</h6>
+                        </div>
+                        <div class="card-body bg-light" style="font-size: 0.9rem;">
+                            <div class="d-flex flex-row justify-content-end mb-3">
+                                <div>
+                                    <p class="small p-2 me-3 mb-1 text-white rounded-3 bg-primary">分析一下上周“复古风连衣裙”的退货原因，总结要点发给我。</p>
+                                </div>
+                            </div>
+                            <div class="d-flex flex-row justify-content-start">
+                                <div>
+                                    <div class="small p-2 ms-3 mb-1 bg-white rounded-3">
+                                        <p>好的，正在为您执行任务：</p>
+                                        <ol class="mb-0 ps-3">
+                                            <li><i class="fa fa-check text-success"></i> 正在从销售系统调取上周“复古风连衣裙”的退货数据...</li>
+                                            <li><i class="fa fa-check text-success"></i> 正在调用NLP模型分析退货评论...</li>
+                                            <li><i class="fa fa-spinner fa-spin"></i> 正在生成分析报告...</li>
+                                        </ol>
+                                    </div>
+                                </div>
+                            </div>
+                             <div class="d-flex flex-row justify-content-start mt-3">
+                                <div>
+                                    <div class="small p-2 ms-3 mb-1 bg-white rounded-3">
+                                        <p><strong>报告要点如下：</strong></p>
+                                        <ul class="mb-0 ps-3">
+                                            <li>主要退货原因为“尺码偏小”，占比45%。</li>
+                                            <li>其次是“颜色与图片不符”，占比20%。</li>
+                                            <li>已自动创建任务，通知研发部门关注尺码问题。</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,259 @@
+<div class="container-fluid">
+    <h2 class="mt-4 mb-3">物控端功能</h2>
+
+    <!-- 智能生产 -->
+    <div class="card">
+        <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+            <h5 class="mb-0"><i class="fa fa-industry me-2"></i>智能生产</h5>
+            <span class="status-badge status-success">运行中</span>
+        </div>
+        <div class="card-body">
+            <p>基于销量预测和库存水平，自动生成生产/采购计划，减少积压，保障爆品供应。</p>
+            
+            <!-- Nav tabs -->
+            <ul class="nav nav-tabs" id="prodTab" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="prod-plan-tab" data-bs-toggle="tab" data-bs-target="#prod-plan" type="button" role="tab" aria-controls="prod-plan" aria-selected="true">生产计划</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="purchase-plan-tab" data-bs-toggle="tab" data-bs-target="#purchase-plan" type="button" role="tab" aria-controls="purchase-plan" aria-selected="false">采购计划</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="supplier-mgmt-tab" data-bs-toggle="tab" data-bs-target="#supplier-mgmt" type="button" role="tab" aria-controls="supplier-mgmt" aria-selected="false">供应商管理</button>
+                </li>
+            </ul>
+
+            <!-- Tab panes -->
+            <div class="tab-content pt-3">
+                <div class="tab-pane active" id="prod-plan" role="tabpanel" aria-labelledby="prod-plan-tab">
+                    <h4>生产计划</h4>
+                    <p class="text-muted">基于销量预测，生成爆品补货/非爆品停产计划。</p>
+
+                    <!-- 功能实现细化 -->
+                    <div class="card mb-4">
+                        <div class="card-header bg-light" data-bs-toggle="collapse" href="#collapse-production-planning" role="button" aria-expanded="false" aria-controls="collapse-production-planning">
+                            <h6 class="mb-0 d-flex justify-content-between">
+                                <span><i class="fa fa-cogs me-2"></i>功能实现细化</span>
+                                <i class="fa fa-chevron-down toggle-icon"></i>
+                            </h6>
+                        </div>
+                        <div class="collapse" id="collapse-production-planning">
+                            <div class="card-body">
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item">
+                                        <strong>1. 销量预测模型:</strong>
+                                        <p class="mb-1 small text-muted">使用时间序列模型（如ARIMA、Prophet）对各SKU未来一段时间（如下周、下月）的销量进行预测。</p>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <strong>2. 安全库存与补货点:</strong>
+                                        <p class="mb-1 small text-muted">系统根据销量预测的波动性和供应商的交货周期，为每个SKU计算动态的安全库存水平和补货点。</p>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <strong>3. 生产计划生成:</strong>
+                                        <p class="mb-1 small text-muted">当可用库存低于补货点时，系统会自动生成生产工单。对于销量持续下滑的非爆品，系统会建议停产。</p>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <strong>4. 产能约束与排程:</strong>
+                                        <p class="mb-1 small text-muted">（高级功能）结合工厂的实际产能和物料的到货时间，对生产工单进行优化排程，确保生产线的平稳运行。</p>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card shadow-sm">
+                        <div class="card-header bg-white">
+                            <h6 class="mb-0"><i class="fa fa-calendar-check-o"></i> 生产计划建议</h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="data-table table table-hover">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th>商品</th>
+                                            <th>建议</th>
+                                            <th>数量</th>
+                                            <th>理由</th>
+                                            <th>操作</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>复古风连衣裙</td>
+                                            <td><span class="badge bg-success">立即生产</span></td>
+                                            <td>500件</td>
+                                            <td>销量预测上升，库存将低于安全线</td>
+                                            <td><a href="#">下达工单</a></td>
+                                        </tr>
+                                        <tr>
+                                            <td>积压款T恤</td>
+                                            <td><span class="badge bg-danger">建议停产</span></td>
+                                            <td>-</td>
+                                            <td>连续4周销量低于预期</td>
+                                            <td><a href="#">确认</a></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane" id="purchase-plan" role="tabpanel" aria-labelledby="purchase-plan-tab">
+                    <h4>采购计划</h4>
+                    <p class="text-muted">基于生产计划和BOM，自动生成物料采购计划。</p>
+
+                    <!-- 功能实现细化 -->
+                    <div class="card mb-4">
+                        <div class="card-header bg-light" data-bs-toggle="collapse" href="#collapse-procurement-planning" role="button" aria-expanded="false" aria-controls="collapse-procurement-planning">
+                            <h6 class="mb-0 d-flex justify-content-between">
+                                <span><i class="fa fa-cogs me-2"></i>功能实现细化</span>
+                                <i class="fa fa-chevron-down toggle-icon"></i>
+                            </h6>
+                        </div>
+                        <div class="collapse" id="collapse-procurement-planning">
+                            <div class="card-body">
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item">
+                                        <strong>1. BOM清单管理:</strong>
+                                        <p class="mb-1 small text-muted">系统维护每个成品SKU的物料清单（BOM），明确生产一件成品需要消耗的各种原材料和数量。</p>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <strong>2. 物料需求计算 (MRP):</strong>
+                                        <p class="mb-1 small text-muted">当生产计划确定后，系统根据BOM自动计算出所需的各种原材料的总量。</p>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <strong>3. 采购订单生成:</strong>
+                                        <p class="mb-1 small text-muted">系统根据计算出的物料需求，并考虑现有库存和安全库存，自动生成向供应商的采购订单。</p>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <strong>4. 供应商分配:</strong>
+                                        <p class="mb-1 small text-muted">对于有多个供应商的原材料，系统可根据预设的配额（如A供应商70%，B供应商30%）或供应商的实时报价和交期，自动分配采购订单。</p>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card shadow-sm">
+                        <div class="card-header bg-white">
+                            <h6 class="mb-0"><i class="fa fa-shopping-cart"></i> 采购订单建议</h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="data-table table table-hover">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th>物料名称</th>
+                                            <th>需求数量</th>
+                                            <th>建议供应商</th>
+                                            <th>预计到货日期</th>
+                                            <th>操作</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>“醋酸”面料</td>
+                                            <td>1000米</td>
+                                            <td>供应商A</td>
+                                            <td>2025-06-20</td>
+                                            <td><a href="#">创建采购单</a></td>
+                                        </tr>
+                                        <tr>
+                                            <td>YKK拉链</td>
+                                            <td>500条</td>
+                                            <td>供应商B</td>
+                                            <td>2025-06-18</td>
+                                            <td><a href="#">创建采购单</a></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane" id="supplier-mgmt" role="tabpanel" aria-labelledby="supplier-mgmt-tab">
+                    <h4>供应商管理</h4>
+                    <p class="text-muted">自动评估供应商（交期、质量、价格），优化采购组合。</p>
+
+                    <!-- 功能实现细化 -->
+                    <div class="card mb-4">
+                        <div class="card-header bg-light" data-bs-toggle="collapse" href="#collapse-supplier-management" role="button" aria-expanded="false" aria-controls="collapse-supplier-management">
+                            <h6 class="mb-0 d-flex justify-content-between">
+                                <span><i class="fa fa-cogs me-2"></i>功能实现细化</span>
+                                <i class="fa fa-chevron-down toggle-icon"></i>
+                            </h6>
+                        </div>
+                        <div class="collapse" id="collapse-supplier-management">
+                            <div class="card-body">
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item">
+                                        <strong>1. 供应商信息库:</strong>
+                                        <p class="mb-1 small text-muted">建立所有供应商的档案，包括其供应的物料、历史报价、合同条款等。</p>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <strong>2. 绩效数据自动采集:</strong>
+                                        <p class="mb-1 small text-muted">系统自动记录每个采购订单的实际到货时间（计算交期准确率）和质检结果（计算质量合格率）。</p>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <strong>3. 供应商评分模型:</strong>
+                                        <p class="mb-1 small text-muted">系统根据交期准确率、质量合格率、价格竞争力等多个维度，为每个供应商定期生成综合评分。</p>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <strong>4. 采购组合优化建议:</strong>
+                                        <p class="mb-1 small text-muted">基于供应商的评分和配额要求，系统会推荐最优的采购组合，例如建议将更多订单分配给评分持续上升的供应商。</p>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card shadow-sm">
+                        <div class="card-header bg-white">
+                            <h6 class="mb-0"><i class="fa fa-star"></i> 供应商绩效评分</h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="data-table table table-hover">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th>供应商</th>
+                                            <th>综合评分</th>
+                                            <th>交期准确率</th>
+                                            <th>质量合格率</th>
+                                            <th>价格竞争力</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>供应商A</td>
+                                            <td><span class="badge bg-success">95</span></td>
+                                            <td>98%</td>
+                                            <td>99%</td>
+                                            <td><span class="badge bg-warning">中</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td>供应商B</td>
+                                            <td><span class="badge bg-warning">82</span></td>
+                                            <td>90%</td>
+                                            <td>95%</td>
+                                            <td><span class="badge bg-success">高</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td>供应商C</td>
+                                            <td><span class="badge bg-danger">70</span></td>
+                                            <td>85%</td>
+                                            <td>88%</td>
+                                            <td><span class="badge bg-success">高</span></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Other cards would go here -->
+</div>
