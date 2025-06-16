@@ -1,4 +1,39 @@
-<div class="container-fluid p-4">
+<style>
+    /* 图表容器样式 */
+    .chart-container {
+        height: 250px;  /* 设置固定高度 */
+        min-height: 250px;
+        margin-bottom: 1.5rem;
+    }
+    
+    /* 卡片内边距调整 */
+    .card-body {
+        padding: 1rem;
+    }
+    
+    /* 卡片标题样式 */
+    .card-header {
+        padding: 0.75rem 1rem;
+        font-weight: 500;
+    }
+    
+    /* 表格容器内边距调整 */
+    .table-responsive {
+        padding: 0 0.5rem;
+    }
+    
+    /* 卡片标题图标间距 */
+    .card-header i {
+        margin-right: 0.5rem;
+    }
+    
+    /* 标签页样式 */
+    .nav-tabs .nav-link {
+        font-weight: 500;
+    }
+</style>
+
+<div class="container-fluid p-3">
     <!-- Header -->
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
         <h1 class="h2">财务管理系统 (FMS)</h1>
@@ -112,7 +147,9 @@
                             <i class="fa fa-bar-chart"></i> 月度销售与利润趋势
                         </div>
                         <div class="card-body">
-                            <canvas id="financeChart" width="100%" height="300"></canvas>
+                            <div class="chart-container">
+                                <canvas id="financeChart"></canvas>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -122,7 +159,9 @@
                             <i class="fa fa-pie-chart"></i> 销售渠道占比
                         </div>
                         <div class="card-body">
-                            <canvas id="channelChart" width="100%" height="300"></canvas>
+                            <div class="chart-container">
+                                <canvas id="channelChart"></canvas>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -561,5 +600,132 @@
             </nav>
         </div>
     </div>
+</div>
 
+<!-- Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+// 页面加载完成后执行
+document.addEventListener('DOMContentLoaded', function() {
+    // 销售渠道饼图
+    const channelCtx = document.getElementById('channelChart');
+    if (channelCtx) {
+        new Chart(channelCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['淘宝', '京东', '拼多多', '抖音', '微信小程序', '线下门店'],
+                datasets: [{
+                    data: [35, 28, 20, 10, 5, 2],
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.7)',
+                        'rgba(54, 162, 235, 0.7)',
+                        'rgba(255, 206, 86, 0.7)',
+                        'rgba(75, 192, 192, 0.7)',
+                        'rgba(153, 102, 255, 0.7)',
+                        'rgba(255, 159, 64, 0.7)'
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'right',
+                        labels: {
+                            boxWidth: 12,
+                            padding: 15,
+                            font: {
+                                size: 12
+                            }
+                        }
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                const label = context.label || '';
+                                const value = context.raw || 0;
+                                const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                                const percentage = Math.round((value / total) * 100);
+                                return `${label}: ${percentage}% (¥${(value * 10000).toLocaleString()})`;
+                            }
+                        }
+                    }
+                },
+                cutout: '65%',
+                animation: {
+                    animateScale: true,
+                    animateRotate: true
+                }
+            }
+        });
+    }
+
+
+    // 如果存在财务图表，也进行初始化
+    const financeCtx = document.getElementById('financeChart');
+    if (financeCtx) {
+        new Chart(financeCtx, {
+            type: 'line',
+            data: {
+                labels: ['1月', '2月', '3月', '4月', '5月', '6月'],
+                datasets: [{
+                    label: '销售额',
+                    data: [185000, 192300, 210500, 198700, 225000, 240500],
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    tension: 0.3,
+                    fill: true
+                }, {
+                    label: '毛利润',
+                    data: [66600, 69228, 75780, 71532, 81000, 86580],
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                    tension: 0.3,
+                    fill: true
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            callback: function(value) {
+                                return '¥' + value.toLocaleString();
+                            }
+                        }
+                    }
+                },
+                plugins: {
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                let label = context.dataset.label || '';
+                                if (label) {
+                                    label += ': ';
+                                }
+                                if (context.parsed.y !== null) {
+                                    label += '¥' + context.parsed.y.toLocaleString();
+                                }
+                                return label;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    }
+});
+</script>
 </div>

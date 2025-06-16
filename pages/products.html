@@ -3,143 +3,720 @@
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
         <h1 class="h2">商品管理系统 (PMS)</h1>
         <div class="btn-toolbar mb-2 mb-md-0">
-            <button type="button" class="btn btn-sm btn-outline-primary">
-                <i class="fa fa-plus"></i> 添加新商品
-            </button>
+            <div class="btn-group me-2">
+                <button type="button" class="btn btn-sm btn-outline-secondary"><i class="fa fa-download"></i> 导出报告</button>
+                <button type="button" class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#addProductModal">
+                    <i class="fa fa-plus"></i> 添加商品
+                </button>
+            </div>
+            <div class="dropdown">
+                <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="fa fa-calendar"></i> 所有时间
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="#">实时</a></li>
+                    <li><a class="dropdown-item" href="#">过去7天</a></li>
+                    <li><a class="dropdown-item" href="#">过去30天</a></li>
+                </ul>
+            </div>
         </div>
     </div>
 
-    <!-- Main Filters and Actions -->
-    <div class="card mb-4">
-        <div class="card-body">
-            <div class="row g-3">
-                <div class="col-md-4">
-                    <input type="text" class="form-control" placeholder="搜索商品名称、SKU、ID...">
-                </div>
-                <div class="col-md-3">
-                    <select class="form-select">
-                        <option selected>所有分类</option>
-                        <option>服装</option>
-                        <option>鞋履</option>
-                        <option>配饰</option>
-                    </select>
-                </div>
-                <div class="col-md-3">
-                    <select class="form-select">
-                        <option selected>所有发布状态</option>
-                        <option>已发布</option>
-                        <option>未发布</option>
-                    </select>
-                </div>
-                <div class="col-md-2">
-                    <button type="submit" class="btn btn-primary w-100"><i class="fa fa-search"></i> 筛选</button>
+    <!-- Inventory Dashboard -->
+    <div class="row mb-4">
+        <div class="col-md-3">
+            <div class="card text-white bg-primary">
+                <div class="card-body">
+                    <h5 class="card-title">商品总数</h5>
+                    <p class="card-text fs-4">1,245</p>
+                    <div class="small text-white-50">在售 856 个，下架 389 个</div>
                 </div>
             </div>
-            <hr>
-            <div class="row g-2">
-                <div class="col-auto">
-                    <button class="btn btn-sm btn-outline-secondary"><i class="fa fa-upload"></i> 批量上架</button>
-                </div>
-                <div class="col-auto">
-                    <button class="btn btn-sm btn-outline-secondary"><i class="fa fa-download"></i> 批量下架</button>
-                </div>
-                <div class="col-auto">
-                    <button class="btn btn-sm btn-outline-secondary"><i class="fa fa-tags"></i> 批量修改价格</button>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-white bg-info">
+                <div class="card-body">
+                    <h5 class="card-title">30天销量</h5>
+                    <p class="card-text fs-4">12,456 件</p>
+                    <div class="small text-white-50">环比增长 8.5%</div>
                 </div>
             </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-white bg-warning">
+                <div class="card-body">
+                    <h5 class="card-title">库存预警</h5>
+                    <p class="card-text fs-4">42 个商品</p>
+                    <div class="small text-white-50">低于安全库存</div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-white bg-danger">
+                <div class="card-body">
+                    <h5 class="card-title">待上架新品</h5>
+                    <p class="card-text fs-4">28 个</p>
+                    <div class="small text-white-50">等待审核发布</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tabs Navigation -->
+    <ul class="nav nav-tabs mb-4" id="productTabs" role="tablist">
+        <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="all-products-tab" data-bs-toggle="tab" data-bs-target="#all-products" type="button" role="tab" aria-controls="all-products" aria-selected="true">
+                <i class="fa fa-boxes-stacked me-2"></i>全部商品
+            </button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="onsale-tab" data-bs-toggle="tab" data-bs-target="#onsale" type="button" role="tab" aria-controls="onsale">
+                <i class="fa fa-tag me-2"></i>在售中
+            </button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="inventory-warning-tab" data-bs-toggle="tab" data-bs-target="#inventory-warning" type="button" role="tab" aria-controls="inventory-warning">
+                <i class="fa fa-exclamation-triangle me-2"></i>库存预警
+            </button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="new-arrivals-tab" data-bs-toggle="tab" data-bs-target="#new-arrivals" type="button" role="tab" aria-controls="new-arrivals">
+                <i class="fa fa-star me-2"></i>新品上架
+            </button>
+        </li>
+    </ul>
+
+    <!-- Tab Content -->
+    <div class="tab-content" id="productTabsContent">
+        <!-- All Products Tab -->
+        <div class="tab-pane fade show active" id="all-products" role="tabpanel" aria-labelledby="all-products-tab">
+            <!-- Advanced Filters -->
+            <div class="card mb-4">
+                <div class="card-header">
+                    <i class="fa fa-filter me-2"></i>高级筛选
+                </div>
+        <div class="collapse show" id="filterCollapse">
+            <div class="card-body">
+                <form class="row g-3">
+                    <div class="col-md-3">
+                        <label class="form-label small text-muted mb-0">商品信息</label>
+                        <input type="text" class="form-control form-control-sm" placeholder="名称、SKU、条码">
+                    </div>
+                    <div class="col-md-2">
+                        <label class="form-label small text-muted mb-0">商品分类</label>
+                        <select class="form-select form-select-sm">
+                            <option value="" selected>全部分类</option>
+                            <option>服装</option>
+                            <option>鞋履</option>
+                            <option>配饰</option>
+                        </select>
+                    </div>
+                    <div class="col-md-2">
+                        <label class="form-label small text-muted mb-0">品牌</label>
+                        <select class="form-select form-select-sm">
+                            <option value="" selected>全部品牌</option>
+                            <option>Nike</option>
+                            <option>Adidas</option>
+                            <option>Uniqlo</option>
+                        </select>
+                    </div>
+                    <div class="col-md-2">
+                        <label class="form-label small text-muted mb-0">销售状态</label>
+                        <select class="form-select form-select-sm">
+                            <option value="" selected>全部状态</option>
+                            <option>销售中</option>
+                            <option>已下架</option>
+                            <option>库存预警</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label small text-muted mb-0">平台</label>
+                        <select class="form-select form-select-sm">
+                            <option value="" selected>全部平台</option>
+                            <option>淘宝/天猫</option>
+                            <option>京东</option>
+                            <option>拼多多</option>
+                            <option>亚马逊</option>
+                        </select>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label small text-muted mb-0">价格区间</label>
+                        <div class="input-group input-group-sm">
+                            <input type="number" class="form-control" placeholder="最低价">
+                            <span class="input-group-text">-</span>
+                            <input type="number" class="form-control" placeholder="最高价">
+                            <button class="btn btn-primary" type="button">
+                                <i class="fa fa-search"></i> 搜索
+                            </button>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <button type="button" class="btn btn-sm btn-outline-secondary me-2">
+                                    <i class="fa fa-redo"></i> 重置
+                                </button>
+                                <button type="button" class="btn btn-sm btn-outline-secondary">
+                                    <i class="fa fa-save"></i> 保存搜索条件
+                                </button>
+                            </div>
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" id="showOnlyWarning">
+                                <label class="form-check-label small" for="showOnlyWarning">仅显示库存预警</label>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bulk Actions -->
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <div class="d-flex align-items-center">
+            <div class="form-check me-3">
+                <input class="form-check-input" type="checkbox" id="selectAll">
+                <label class="form-check-label small" for="selectAll">全选</label>
+            </div>
+            <div class="btn-group btn-group-sm me-2">
+                <button type="button" class="btn btn-outline-primary">批量上架</button>
+                <button type="button" class="btn btn-outline-secondary">批量下架</button>
+                <button type="button" class="btn btn-outline-success">批量修改价格</button>
+                <button type="button" class="btn btn-outline-info">批量修改库存</button>
+                <button type="button" class="btn btn-outline-warning">批量设置促销</button>
+            </div>
+            <div class="btn-group btn-group-sm">
+                <button type="button" class="btn btn-outline-dark dropdown-toggle" data-bs-toggle="dropdown">
+                    更多操作
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="#"><i class="fa fa-tags me-2"></i>批量修改分类</a></li>
+                    <li><a class="dropdown-item" href="#"><i class="fa fa-truck me-2"></i>批量设置物流</a></li>
+                    <li><a class="dropdown-item" href="#"><i class="fa fa-trash me-2"></i>批量删除</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item" href="#"><i class="fa fa-file-export me-2"></i>导出选中商品</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="d-flex align-items-center">
+            <div class="input-group input-group-sm me-2" style="width: 200px;">
+                <span class="input-group-text"><i class="fa fa-search"></i></span>
+                <input type="text" class="form-control" placeholder="快速搜索...">
+            </div>
+            <div class="btn-group" role="group">
+                <button type="button" class="btn btn-sm btn-outline-secondary"><i class="fa fa-th-large"></i></button>
+                <button type="button" class="btn btn-sm btn-outline-secondary active"><i class="fa fa-list"></i></button>
+            </div>
+        </div>
+    </div>
         </div>
     </div>
 
     <!-- Products Table -->
     <div class="table-responsive">
-        <table class="table table-striped table-hover table-sm align-middle">
+        <table class="table table-hover table-sm align-middle">
             <thead class="table-light">
                 <tr>
-                    <th><input class="form-check-input" type="checkbox"></th>
-                    <th style="width: 80px;">图片</th>
-                    <th>商品名称</th>
-                    <th>SKU</th>
-                    <th class="text-end">价格</th>
-                    <th class="text-end">库存</th>
-                    <th class="text-center">发布平台</th>
-                    <th class="text-center">操作</th>
+                    <th style="width: 30px;">
+                        <input class="form-check-input" type="checkbox" id="selectAllRows">
+                    </th>
+                    <th style="width: 60px;">图片</th>
+                    <th style="min-width: 200px;">商品信息</th>
+                    <th>SKU/条码</th>
+                    <th class="text-end" style="min-width: 120px;">价格</th>
+                    <th class="text-end" style="min-width: 100px;">库存状态</th>
+                    <th class="text-center" style="min-width: 120px;">销售数据</th>
+                    <th class="text-center" style="min-width: 150px;">平台状态</th>
+                    <th class="text-center" style="width: 100px;">操作</th>
                 </tr>
             </thead>
-            <tbody>
-                <tr>
-                    <td><input class="form-check-input" type="checkbox"></td>
-                    <td><img src="https://via.placeholder.com/60x60?text=Product" class="img-fluid rounded"></td>
-                    <td>T恤 - 白色</td>
-                    <td>TSHIRT-WHT-M</td>
-                    <td class="text-end">¥99.00</td>
-                    <td class="text-end">150</td>
-                    <td class="text-center">
-                        <i class="fa fa-taobao text-warning" title="淘宝"></i>
-                        <i class="fa fa-jd text-danger" title="京东"></i>
+            <tbody class="border-top-0">
+                <!-- 商品行 1 -->
+                <tr class="position-relative">
+                    <td class="align-middle">
+                        <input class="form-check-input row-checkbox" type="checkbox">
                     </td>
-                    <td class="text-center">
-                        <button class="btn btn-sm btn-outline-secondary"><i class="fa fa-pencil"></i></button>
-                        <button class="btn btn-sm btn-outline-danger"><i class="fa fa-trash"></i></button>
+                    <td class="align-middle">
+                        <img src="https://via.placeholder.com/80x80?text=T-Shirt" class="img-fluid rounded border" style="max-height: 60px;">
+                    </td>
+                    <td class="align-middle">
+                        <div class="d-flex flex-column">
+                            <span class="fw-medium">纯棉圆领T恤 2025夏季新款</span>
+                            <div class="small text-muted">
+                                <span class="badge bg-light text-dark me-1">服装</span>
+                                <span class="badge bg-light text-dark">基础款</span>
+                            </div>
+                            <div class="mt-1">
+                                <span class="badge bg-success bg-opacity-10 text-success small">热销</span>
+                                <span class="badge bg-info bg-opacity-10 text-info small">新品</span>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="align-middle">
+                        <div class="small">
+                            <div>TSHIRT-WHT-M</div>
+                            <div class="text-muted">692123456789</div>
+                        </div>
+                    </td>
+                    <td class="align-middle text-end">
+                        <div class="fw-medium">¥99.00</div>
+                        <div class="small text-muted">
+                            <span class="text-decoration-line-through">¥129.00</span>
+                            <span class="text-danger ms-1">7.5折</span>
+                        </div>
+                        <div class="small text-muted">成本: ¥45.00</div>
+                    </td>
+                    <td class="align-middle">
+                        <div class="d-flex flex-column align-items-end">
+                            <div class="d-flex align-items-center">
+                                <div class="progress flex-grow-1" style="height: 6px; width: 60px;">
+                                    <div class="progress-bar bg-warning" role="progressbar" style="width: 30%;" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                                <span class="ms-2 fw-medium">150</span>
+                            </div>
+                            <div class="small text-muted">安全库存: 50</div>
+                            <div class="small text-danger">
+                                <i class="fa fa-exclamation-triangle"></i> 低于警戒线
+                            </div>
+                        </div>
+                    </td>
+                    <td class="align-middle">
+                        <div class="text-center">
+                            <div class="fw-medium">1,245</div>
+                            <div class="small text-muted">30天销量</div>
+                            <div class="progress mt-1" style="height: 4px;">
+                                <div class="progress-bar bg-success" role="progressbar" style="width: 65%;" aria-valuenow="65" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="align-middle">
+                        <div class="d-flex flex-column align-items-center">
+                            <div class="mb-1">
+                                <span class="badge bg-success bg-opacity-10 text-success">
+                                    <i class="fa fa-check-circle"></i> 已上架
+                                </span>
+                            </div>
+                            <div class="d-flex gap-2">
+                                <i class="fa fa-taobao text-warning" data-bs-toggle="tooltip" title="淘宝/天猫" style="font-size: 1.2rem;"></i>
+                                <i class="fa fa-jd text-danger" data-bs-toggle="tooltip" title="京东" style="font-size: 1.2rem;"></i>
+                                <i class="fa fa-shopping-bag text-primary" data-bs-toggle="tooltip" title="拼多多" style="font-size: 1.2rem;"></i>
+                            </div>
+                            <div class="small text-muted mt-1">最后更新: 2025-06-15</div>
+                        </div>
+                    </td>
+                    <td class="align-middle text-center">
+                        <div class="btn-group btn-group-sm" role="group">
+                            <button type="button" class="btn btn-outline-primary" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="fa fa-ellipsis-v"></i>
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-end">
+                                <li><a class="dropdown-item" href="#"><i class="fa fa-edit me-2"></i>编辑商品</a></li>
+                                <li><a class="dropdown-item" href="#"><i class="fa fa-copy me-2"></i>复制商品</a></li>
+                                <li><a class="dropdown-item" href="#"><i class="fa fa-chart-line me-2"></i>销售分析</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item text-danger" href="#"><i class="fa fa-trash me-2"></i>删除</a></li>
+                            </ul>
+                            <button type="button" class="btn btn-outline-success" data-bs-toggle="tooltip" title="快速上架">
+                                <i class="fa fa-arrow-up"></i>
+                            </button>
+                        </div>
                     </td>
                 </tr>
-                <tr>
-                    <td><input class="form-check-input" type="checkbox"></td>
-                    <td><img src="https://via.placeholder.com/60x60?text=Product" class="img-fluid rounded"></td>
-                    <td>帆布鞋 - 黑色</td>
-                    <td>SHOES-BLK-42</td>
-                    <td class="text-end">¥189.00</td>
-                    <td class="text-end">18</td>
-                    <td class="text-center">
-                        <i class="fa fa-taobao text-warning" title="淘宝"></i>
+
+                <!-- 商品行 2 - 库存充足 -->
+                <tr class="position-relative">
+                    <td class="align-middle">
+                        <input class="form-check-input row-checkbox" type="checkbox">
                     </td>
-                    <td class="text-center">
-                        <button class="btn btn-sm btn-outline-secondary"><i class="fa fa-pencil"></i></button>
-                        <button class="btn btn-sm btn-outline-danger"><i class="fa fa-trash"></i></button>
+                    <td class="align-middle">
+                        <img src="https://via.placeholder.com/80x80?text=Shoes" class="img-fluid rounded border" style="max-height: 60px;">
                     </td>
-                </tr>
-                <tr>
-                    <td><input class="form-check-input" type="checkbox"></td>
-                    <td><img src="https://via.placeholder.com/60x60?text=Product" class="img-fluid rounded"></td>
-                    <td>牛仔裤 - 蓝色</td>
-                    <td>JEANS-BLU-32</td>
-                    <td class="text-end">¥249.00</td>
-                    <td class="text-end">50</td>
-                    <td class="text-center">
-                        <i class="fa fa-jd text-danger" title="京东"></i>
-                        <i class="fa fa-amazon text-primary" title="亚马逊"></i>
+                    <td class="align-middle">
+                        <div class="d-flex flex-column">
+                            <span class="fw-medium">帆布鞋 2025春季新款</span>
+                            <div class="small text-muted">
+                                <span class="badge bg-light text-dark me-1">鞋履</span>
+                                <span class="badge bg-light text-dark">帆布鞋</span>
+                            </div>
+                        </div>
                     </td>
-                    <td class="text-center">
-                        <button class="btn btn-sm btn-outline-secondary"><i class="fa fa-pencil"></i></button>
-                        <button class="btn btn-sm btn-outline-danger"><i class="fa fa-trash"></i></button>
+                    <td class="align-middle">
+                        <div class="small">
+                            <div>SHOES-BLK-42</div>
+                            <div class="text-muted">692123456788</div>
+                        </div>
                     </td>
-                </tr>
-                <tr>
-                    <td><input class="form-check-input" type="checkbox"></td>
-                    <td><img src="https://via.placeholder.com/60x60?text=Product" class="img-fluid rounded"></td>
-                    <td>棒球帽 - 红色</td>
-                    <td>CAP-RED-OS</td>
-                    <td class="text-end">¥79.00</td>
-                    <td class="text-end">55</td>
-                    <td class="text-center">
-                        <i class="fa fa-shopping-bag text-danger" title="拼多多"></i>
+                    <td class="align-middle text-end">
+                        <div class="fw-medium">¥189.00</div>
+                        <div class="small text-muted">成本: ¥85.00</div>
                     </td>
-                    <td class="text-center">
-                        <button class="btn btn-sm btn-outline-secondary"><i class="fa fa-pencil"></i></button>
-                        <button class="btn btn-sm btn-outline-danger"><i class="fa fa-trash"></i></button>
+                    <td class="align-middle">
+                        <div class="d-flex flex-column align-items-end">
+                            <div class="d-flex align-items-center">
+                                <div class="progress flex-grow-1" style="height: 6px; width: 60px;">
+                                    <div class="progress-bar bg-success" role="progressbar" style="width: 80%;" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                                <span class="ms-2 fw-medium">320</span>
+                            </div>
+                            <div class="small text-muted">安全库存: 30</div>
+                        </div>
+                    </td>
+                    <td class="align-middle">
+                        <div class="text-center">
+                            <div class="fw-medium">856</div>
+                            <div class="small text-muted">30天销量</div>
+                            <div class="progress mt-1" style="height: 4px;">
+                                <div class="progress-bar bg-success" role="progressbar" style="width: 45%;" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="align-middle">
+                        <div class="d-flex flex-column align-items-center">
+                            <div class="mb-1">
+                                <span class="badge bg-success bg-opacity-10 text-success">
+                                    <i class="fa fa-check-circle"></i> 已上架
+                                </span>
+                            </div>
+                            <div class="d-flex gap-2">
+                                <i class="fa fa-taobao text-warning" data-bs-toggle="tooltip" title="淘宝/天猫" style="font-size: 1.2rem;"></i>
+                            </div>
+                            <div class="small text-muted mt-1">最后更新: 2025-06-10</div>
+                        </div>
+                    </td>
+                    <td class="align-middle text-center">
+                        <div class="btn-group btn-group-sm" role="group">
+                            <button type="button" class="btn btn-outline-primary" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="fa fa-ellipsis-v"></i>
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-end">
+                                <li><a class="dropdown-item" href="#"><i class="fa fa-edit me-2"></i>编辑商品</a></li>
+                                <li><a class="dropdown-item" href="#"><i class="fa fa-copy me-2"></i>复制商品</a></li>
+                                <li><a class="dropdown-item" href="#"><i class="fa fa-chart-line me-2"></i>销售分析</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item text-danger" href="#"><i class="fa fa-trash me-2"></i>删除</a></li>
+                            </ul>
+                            <button type="button" class="btn btn-outline-danger" data-bs-toggle="tooltip" title="快速下架">
+                                <i class="fa fa-arrow-down"></i>
+                            </button>
+                        </div>
                     </td>
                 </tr>
             </tbody>
         </table>
     </div>
 
-    <!-- Pagination -->
-    <nav aria-label="Page navigation">
-        <ul class="pagination justify-content-center">
-            <li class="page-item disabled"><a class="page-link" href="#">上一页</a></li>
-            <li class="page-item active"><a class="page-link" href="#">1</a></li>
-            <li class="page-item"><a class="page-link" href="#">2</a></li>
-            <li class="page-item"><a class="page-link" href="#">3</a></li>
-            <li class="page-item"><a class="page-link" href="#">下一页</a></li>
-        </ul>
-    </nav>
+    <!-- Pagination and Summary -->
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-center border-top pt-3">
+        <div class="mb-2 mb-md-0">
+            <div class="d-flex align-items-center">
+                <span class="me-3 small text-muted">
+                    显示 <span class="fw-medium">1-20</span> 条，共 <span class="fw-medium">1,245</span> 条
+                </span>
+                <div class="input-group input-group-sm" style="width: 100px;">
+                    <select class="form-select form-select-sm">
+                        <option>20条/页</option>
+                        <option>50条/页</option>
+                        <option>100条/页</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        
+        <nav aria-label="Page navigation">
+            <ul class="pagination pagination-sm mb-0">
+                <li class="page-item disabled">
+                    <a class="page-link" href="#" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+                <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                <li class="page-item">
+                    <a class="page-link" href="#" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+    
+    <!-- Summary Cards -->
+    <div class="row g-3 mt-2">
+        <div class="col-md-3">
+            <div class="card border-0 bg-light">
+                <div class="card-body py-2">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h6 class="mb-0 small text-muted">总商品数</h6>
+                            <div class="h5 mb-0">1,245</div>
+                        </div>
+                        <div class="bg-primary bg-opacity-10 p-2 rounded">
+                            <i class="fa fa-cubes text-primary"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card border-0 bg-light">
+                <div class="card-body py-2">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h6 class="mb-0 small text-muted">上架中</h6>
+                            <div class="h5 mb-0">856 <span class="small text-success">+12</span></div>
+                        </div>
+                        <div class="bg-success bg-opacity-10 p-2 rounded">
+                            <i class="fa fa-check-circle text-success"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card border-0 bg-light">
+                <div class="card-body py-2">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h6 class="mb-0 small text-muted">库存预警</h6>
+                            <div class="h5 mb-0">42 <span class="small text-danger">+3</span></div>
+                        </div>
+                        <div class="bg-warning bg-opacity-10 p-2 rounded">
+                            <i class="fa fa-exclamation-triangle text-warning"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card border-0 bg-light">
+                <div class="card-body py-2">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h6 class="mb-0 small text-muted">30天销量</h6>
+                            <div class="h5 mb-0">12,456 <span class="small text-success">+8.5%</span></div>
+                        </div>
+                        <div class="bg-info bg-opacity-10 p-2 rounded">
+                            <i class="fa fa-chart-line text-info"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Add Product Modal -->
+<div class="modal fade" id="addProductModal" tabindex="-1" aria-labelledby="addProductModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addProductModalLabel">添加新商品</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <ul class="nav nav-tabs mb-4" id="productTabs" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="basic-tab" data-bs-toggle="tab" data-bs-target="#basic" type="button" role="tab">
+                            <i class="fa fa-info-circle me-1"></i> 基本信息
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="inventory-tab" data-bs-toggle="tab" data-bs-target="#inventory" type="button" role="tab">
+                            <i class="fa fa-warehouse me-1"></i> 库存价格
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="platforms-tab" data-bs-toggle="tab" data-bs-target="#platforms" type="button" role="tab">
+                            <i class="fa fa-store me-1"></i> 销售平台
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="media-tab" data-bs-toggle="tab" data-bs-target="#media" type="button" role="tab">
+                            <i class="fa fa-images me-1"></i> 商品图片
+                        </button>
+                    </li>
+                </ul>
+                
+                <div class="tab-content" id="productTabsContent">
+                    <div class="tab-pane fade show active" id="basic" role="tabpanel">
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label class="form-label">商品名称 <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" placeholder="请输入商品名称" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">商品分类 <span class="text-danger">*</span></label>
+                                <select class="form-select" required>
+                                    <option value="">选择分类</option>
+                                    <option>服装</option>
+                                    <option>鞋履</option>
+                                    <option>配饰</option>
+                                </select>
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label">商品描述</label>
+                                <textarea class="form-control" rows="3" placeholder="输入商品详细描述..."></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="inventory" role="tabpanel">
+                        <div class="row g-3">
+                            <div class="col-md-4">
+                                <label class="form-label">SKU <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" placeholder="自动生成或手动输入">
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label">销售价格 <span class="text-danger">*</span></label>
+                                <div class="input-group">
+                                    <span class="input-group-text">¥</span>
+                                    <input type="number" class="form-control" placeholder="0.00" step="0.01" required>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label">成本价</label>
+                                <div class="input-group">
+                                    <span class="input-group-text">¥</span>
+                                    <input type="number" class="form-control" placeholder="0.00" step="0.01">
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label">库存数量 <span class="text-danger">*</span></label>
+                                <input type="number" class="form-control" value="0" min="0" required>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label">安全库存</label>
+                                <input type="number" class="form-control" value="10" min="0">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="platforms" role="tabpanel">
+                        <div class="mb-3">
+                            <div class="form-check form-switch mb-2">
+                                <input class="form-check-input" type="checkbox" id="syncInventory" checked>
+                                <label class="form-check-label" for="syncInventory">同步库存到所有平台</label>
+                            </div>
+                            <div class="form-check form-switch mb-2">
+                                <input class="form-check-input" type="checkbox" id="autoPublish" checked>
+                                <label class="form-check-label" for="autoPublish">自动发布到选中的平台</label>
+                            </div>
+                        </div>
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <div class="card">
+                                    <div class="card-header bg-light d-flex justify-content-between align-items-center">
+                                        <span><i class="fa fa-taobao text-warning me-2"></i> 淘宝/天猫</span>
+                                        <div class="form-check form-switch mb-0">
+                                            <input class="form-check-input" type="checkbox" checked>
+                                        </div>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="mb-2">
+                                            <label class="form-label small text-muted mb-1">店铺分类</label>
+                                            <select class="form-select form-select-sm">
+                                                <option>选择分类</option>
+                                                <option>女装</option>
+                                                <option>男装</option>
+                                                <option>鞋靴</option>
+                                            </select>
+                                        </div>
+                                        <div class="mb-2">
+                                            <label class="form-label small text-muted mb-1">价格调整</label>
+                                            <div class="input-group input-group-sm">
+                                                <input type="number" class="form-control" value="0" step="0.1">
+                                                <span class="input-group-text">%</span>
+                                                <span class="input-group-text">¥0.00</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="card">
+                                    <div class="card-header bg-light d-flex justify-content-between align-items-center">
+                                        <span><i class="fa fa-jd text-danger me-2"></i> 京东</span>
+                                        <div class="form-check form-switch mb-0">
+                                            <input class="form-check-input" type="checkbox">
+                                        </div>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="mb-2">
+                                            <label class="form-label small text-muted mb-1">京东分类</label>
+                                            <select class="form-select form-select-sm">
+                                                <option>选择分类</option>
+                                                <option>女装</option>
+                                                <option>男装</option>
+                                                <option>鞋靴</option>
+                                            </select>
+                                        </div>
+                                        <div class="mb-2">
+                                            <label class="form-label small text-muted mb-1">价格调整</label>
+                                            <div class="input-group input-group-sm">
+                                                <input type="number" class="form-control" value="0" step="0.1">
+                                                <span class="input-group-text">%</span>
+                                                <span class="input-group-text">¥0.00</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="media" role="tabpanel">
+                        <div class="border rounded p-3 text-center">
+                            <div class="dropzone" id="productImageUpload" style="min-height: 200px; border: 2px dashed #dee2e6; border-radius: 0.25rem; display: flex; align-items: center; justify-content: center; cursor: pointer;">
+                                <div class="text-center p-4">
+                                    <i class="fa fa-cloud-upload-alt fa-3x text-muted mb-3"></i>
+                                    <h5>拖放图片到此处或点击上传</h5>
+                                    <p class="small text-muted mb-0">支持 JPG, PNG 格式，最多可上传 10 张图片</p>
+                                </div>
+                            </div>
+                            <div class="row g-2 mt-2" id="imagePreview">
+                                <!-- 图片预览将在这里动态生成 -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary">保存商品</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Quick Edit Modal -->
+<div class="modal fade" id="quickEditModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">快速编辑</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3">
+                    <label class="form-label">商品名称</label>
+                    <input type="text" class="form-control">
+                </div>
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <label class="form-label">销售价格</label>
+                        <div class="input-group">
+                            <span class="input-group-text">¥</span>
+                            <input type="number" class="form-control" step="0.01">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">库存数量</label>
+                        <input type="number" class="form-control">
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary">保存更改</button>
+            </div>
+        </div>
+    </div>
 </div>
