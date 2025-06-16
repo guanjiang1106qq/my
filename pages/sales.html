@@ -1,0 +1,519 @@
+<div class="container-fluid">
+    <h2 class="mt-4 mb-3">销售端功能</h2>
+
+
+
+    <!-- 智能客服助手 -->
+    <div class="card mt-4">
+        <div class="card-header bg-info text-white d-flex justify-content-between align-items-center">
+            <h5 class="mb-0"><i class="fa fa-comments-o me-2"></i>智能客服助手</h5>
+            <span class="status-badge status-success">运行中</span>
+        </div>
+        <div class="card-body">
+            <p>自动化处理80%-90%订单查询（价格、物流、退货），支持淘宝旺旺、拼多多客服、抖音/快手弹幕、微信语音。</p>
+            
+            <!-- Nav tabs -->
+            <ul class="nav nav-tabs" id="csBotTab" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="auto-reply-tab" data-bs-toggle="tab" data-bs-target="#auto-reply" type="button" role="tab" aria-controls="auto-reply" aria-selected="true">自动回复</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="ticket-mgmt-tab" data-bs-toggle="tab" data-bs-target="#ticket-mgmt" type="button" role="tab" aria-controls="ticket-mgmt" aria-selected="false">工单管理</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="live-support-tab" data-bs-toggle="tab" data-bs-target="#live-support" type="button" role="tab" aria-controls="live-support" aria-selected="false">直播支持</button>
+                </li>
+                 <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="voice-interaction-tab" data-bs-toggle="tab" data-bs-target="#voice-interaction" type="button" role="tab" aria-controls="voice-interaction" aria-selected="false">语音交互</button>
+                </li>
+            </ul>
+
+            <!-- Tab panes -->
+            <div class="tab-content pt-3">
+                <div class="tab-pane active" id="auto-reply" role="tabpanel" aria-labelledby="auto-reply-tab">
+                    <h4>自动回复</h4>
+                    <p class="text-muted">基于AI处理退货/物流问题，自动化率80%-90%。</p>
+
+                    <!-- 功能实现细化 -->
+                    <div class="card mb-4">
+                        <div class="card-header bg-light" data-bs-toggle="collapse" href="#collapse-auto-reply" role="button" aria-expanded="false" aria-controls="collapse-auto-reply">
+                            <h6 class="mb-0 d-flex justify-content-between">
+                                <span><i class="fa fa-cogs me-2"></i>功能实现细化</span>
+                                <i class="fa fa-chevron-down toggle-icon"></i>
+                            </h6>
+                        </div>
+                        <div class="collapse" id="collapse-auto-reply">
+                            <div class="card-body">
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item">
+                                        <strong>1. 多渠道消息接入:</strong>
+                                        <p class="mb-1 small text-muted">通过平台API接入淘宝旺旺、拼多多、抖音等渠道的客服消息，统一汇聚到消息中心。</p>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <strong>2. 意图识别与知识库:</strong>
+                                        <p class="mb-1 small text-muted">使用Rasa或商汤LazyLLM进行用户意图识别（如查询物流、申请退货）。机器人根据识别的意图，在知识库（FAQ）中查找标准答案。</p>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <strong>3. 上下文理解与订单关联:</strong>
+                                        <p class="mb-1 small text-muted">机器人能理解多轮对话上下文。当用户问“我的订单到哪了？”，机器人能自动关联该用户的最新订单，并查询物流接口返回具体状态。</p>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <strong>4. 人工转接与无缝切换:</strong>
+                                        <p class="mb-1 small text-muted">当机器人无法回答或用户明确要求时，系统会将对话无缝转接给人工客服，并附上完整的聊天记录和机器人已识别的意图。</p>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card shadow-sm">
+                        <div class="card-header bg-white">
+                            <h6 class="mb-0"><i class="fa fa-wrench"></i> 自动回复规则配置</h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="mb-3">
+                                <label class="form-label"><strong>关键词触发回复</strong> (如：输入“你好”)</label>
+                                <textarea class="form-control" rows="2" placeholder="输入自动回复内容...">亲，您好，有什么可以帮您？</textarea>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label"><strong>物流查询模板</strong></label>
+                                <textarea class="form-control" rows="2" readonly>亲，您的订单[订单号]当前状态是：[物流状态]，由[快递公司]承运，运单号是[运单号]。</textarea>
+                            </div>
+                             <button class="btn btn-primary">保存配置</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane" id="ticket-mgmt" role="tabpanel" aria-labelledby="ticket-mgmt-tab">
+                    <h4>工单管理</h4>
+                    <p class="text-muted">AI分类退货诉求，优先推送高价值客户至人工。</p>
+
+                    <!-- 功能实现细化 -->
+                    <div class="card mb-4">
+                        <div class="card-header bg-light" data-bs-toggle="collapse" href="#collapse-ticket-management" role="button" aria-expanded="false" aria-controls="collapse-ticket-management">
+                            <h6 class="mb-0 d-flex justify-content-between">
+                                <span><i class="fa fa-cogs me-2"></i>功能实现细化</span>
+                                <i class="fa fa-chevron-down toggle-icon"></i>
+                            </h6>
+                        </div>
+                        <div class="collapse" id="collapse-ticket-management">
+                            <div class="card-body">
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item">
+                                        <strong>1. 自动创建工单:</strong>
+                                        <p class="mb-1 small text-muted">当机器人无法解决或用户请求人工时，系统自动将当前对话转换为一个工单，并记录所有上下文信息。</p>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <strong>2. 智能路由与分配:</strong>
+                                        <p class="mb-1 small text-muted">AI根据用户意图（如“退货”、“投诉”）和用户画像（如“高价值客户”），将工单自动分配给最合适的客服组或客服人员，并设置优先级。</p>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <strong>3. SLA监控与预警:</strong>
+                                        <p class="mb-1 small text-muted">为不同优先级的工单设置SLA（服务等级协议，如高价值客户投诉需在10分钟内响应）。当工单即将超时，系统会自动提醒主管。</p>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <strong>4. 知识库推荐与质检:</strong>
+                                        <p class="mb-1 small text-muted">在人工处理界面，AI会根据工单内容实时推荐相关知识库条目，辅助客服回答。同时，AI会对已完成的工单进行抽样质检，评估服务质量。</p>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card shadow-sm">
+                        <div class="card-header bg-white">
+                            <h6 class="mb-0"><i class="fa fa-ticket"></i> 我的工单列表</h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="data-table table table-hover">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th>工单ID</th>
+                                            <th>客户</th>
+                                            <th>问题摘要</th>
+                                            <th>优先级</th>
+                                            <th>状态</th>
+                                            <th>分配时间</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>T-001</td>
+                                            <td>张三 (高价值)</td>
+                                            <td>申请退货，态度强硬</td>
+                                            <td><span class="badge bg-danger">高</span></td>
+                                            <td><span class="badge bg-warning">处理中</span></td>
+                                            <td>5分钟前</td>
+                                        </tr>
+                                        <tr>
+                                            <td>T-002</td>
+                                            <td>李四</td>
+                                            <td>咨询发票问题</td>
+                                            <td><span class="badge bg-info">中</span></td>
+                                            <td><span class="badge bg-secondary">待分配</span></td>
+                                            <td>1小时前</td>
+                                        </tr>
+                                        <tr>
+                                            <td>T-003</td>
+                                            <td>王五</td>
+                                            <td>物流长时间未更新</td>
+                                            <td><span class="badge bg-info">中</span></td>
+                                            <td><span class="badge bg-success">已解决</span></td>
+                                            <td>3小时前</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane" id="live-support" role="tabpanel" aria-labelledby="live-support-tab">
+                    <h4>直播支持</h4>
+                    <p class="text-muted">自动回复抖音/快手弹幕（如“尺码表”“退货政策”），支持高并发（10万+交互/小时）。</p>
+
+                    <!-- 功能实现细化 -->
+                    <div class="card mb-4">
+                        <div class="card-header bg-light" data-bs-toggle="collapse" href="#collapse-live-support" role="button" aria-expanded="false" aria-controls="collapse-live-support">
+                            <h6 class="mb-0 d-flex justify-content-between">
+                                <span><i class="fa fa-cogs me-2"></i>功能实现细化</span>
+                                <i class="fa fa-chevron-down toggle-icon"></i>
+                            </h6>
+                        </div>
+                        <div class="collapse" id="collapse-live-support">
+                            <div class="card-body">
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item">
+                                        <strong>1. 弹幕高速接入:</strong>
+                                        <p class="mb-1 small text-muted">通过Oba Live Tool或平台官方直播API，实时接入抖音、快手直播间的弹幕数据流，并推送到Kafka进行缓冲。</p>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <strong>2. 关键词与意图识别:</strong>
+                                        <p class="mb-1 small text-muted">弹幕内容经过预处理后，机器人快速匹配预设的关键词（如“尺码”、“怎么买”），或通过轻量级意图识别模型判断用户问题。</p>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <strong>3. 自动回复与弹幕发送:</strong>
+                                        <p class="mb-1 small text-muted">匹配成功后，机器人从知识库中选取答案，通过直播平台的API将回复内容以弹幕或评论的形式发送出去。整个过程要求在毫秒级完成，以应对高并发场景。</p>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <strong>4. 互动数据分析:</strong>
+                                        <p class="mb-1 small text-muted">系统会记录所有弹幕内容和机器人的回复情况，并在直播结束后生成分析报告，统计用户最关心的问题、互动热度等，为主播复盘提供数据支持。</p>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card shadow-sm">
+                        <div class="card-header bg-white">
+                            <h6 class="mb-0"><i class="fa fa-television"></i> 直播间弹幕助手</h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="mb-3">
+                                <label class="form-label"><strong>当前监控直播间:</strong></label>
+                                <p>抖音 - “我的官方旗舰店” (ID: 123456)</p>
+                            </div>
+                            <div class="form-check form-switch mb-3">
+                                <input class="form-check-input" type="checkbox" role="switch" id="liveBotSwitch" checked>
+                                <label class="form-check-label" for="liveBotSwitch">开启弹幕自动回复</label>
+                            </div>
+                            <h6><i class="fa fa-commenting-o"></i> 实时弹幕日志</h6>
+                            <div style="height: 200px; background-color: #f8f9fa; border: 1px solid #dee2e6; border-radius: 4px; padding: 10px; overflow-y: scroll;">
+                                <p class="small mb-1"><span class="text-primary">[机器人]</span> 回复 @用户A: 亲，尺码表在商品详情页最后一张图哦！</p>
+                                <p class="small mb-1">[用户A]: 尺码表在哪？</p>
+                                <p class="small mb-1"><span class="text-primary">[机器人]</span> 回复 @用户B: 亲，今天拍下48小时内发货哈！</p>
+                                <p class="small mb-1">[用户B]: 今天能发货吗？</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane" id="voice-interaction" role="tabpanel" aria-labelledby="voice-interaction-tab">
+                    <h4>语音交互</h4>
+                    <p class="text-muted">微信语音转文字，识别普通话/粤语/四川话。</p>
+
+                    <!-- 功能实现细化 -->
+                    <div class="card mb-4">
+                        <div class="card-header bg-light" data-bs-toggle="collapse" href="#collapse-voice-interaction" role="button" aria-expanded="false" aria-controls="collapse-voice-interaction">
+                            <h6 class="mb-0 d-flex justify-content-between">
+                                <span><i class="fa fa-cogs me-2"></i>功能实现细化</span>
+                                <i class="fa fa-chevron-down toggle-icon"></i>
+                            </h6>
+                        </div>
+                        <div class="collapse" id="collapse-voice-interaction">
+                            <div class="card-body">
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item">
+                                        <strong>1. 语音消息接入:</strong>
+                                        <p class="mb-1 small text-muted">通过微信公众号或小程序API，接收用户发送的语音消息，并临时存储为音频文件（如AMR或MP3）。</p>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <strong>2. 语音识别 (ASR):</strong>
+                                        <p class="mb-1 small text-muted">调用语音识别引擎（如开源的Kaldi，或针对方言优化过的商用服务），将音频文件转换为文本。模型需要支持普通话、粤语、四川话等主流方言。</p>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <strong>3. 文本意图处理:</strong>
+                                        <p class="mb-1 small text-muted">转换后的文本进入与文字客服相同的NLP处理流程，进行意图识别、订单关联和知识库查询。</p>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <strong>4. 文本回复:</strong>
+                                        <p class="mb-1 small text-muted">系统生成标准文本回复，通过微信API发送给用户。暂不提供语音合成（TTS）回复，以保证交互效率和准确性。</p>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card shadow-sm">
+                        <div class="card-header bg-white">
+                            <h6 class="mb-0"><i class="fa fa-weixin"></i> 微信语音客服模拟</h6>
+                        </div>
+                        <div class="card-body bg-light" style="font-size: 0.9rem;">
+                            <div class="d-flex flex-row justify-content-end mb-3">
+                                <div>
+                                    <p class="small p-2 me-3 mb-1 text-white rounded-3 bg-primary">[语音消息 🔈 5s]</p>
+                                    <p class="small me-3 mb-3 rounded-3 text-muted" style="background-color: #f5f6f7;">识别结果: 我那个连衣裙到哪儿了？</p>
+                                </div>
+                            </div>
+                            <div class="d-flex flex-row justify-content-start">
+                                <div>
+                                    <p class="small p-2 ms-3 mb-1 bg-white rounded-3">亲，您尾号为1234的订单当前已到达[XX中转中心]，预计今天会派送，请您留意电话哦~</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 动态定价策略 -->
+    <div class="card mt-4">
+        <div class="card-header bg-warning text-white d-flex justify-content-between align-items-center">
+            <h5 class="mb-0"><i class="fa fa-money me-2"></i>动态定价策略</h5>
+            <span class="status-badge status-success">运行中</span>
+        </div>
+        <div class="card-body">
+            <p>根据库存、需求、竞品价格自动调整定价，优先清非爆品库存，保障爆品毛利。</p>
+            
+            <!-- Nav tabs -->
+            <ul class="nav nav-tabs" id="pricingTab" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="price-optimization-tab" data-bs-toggle="tab" data-bs-target="#price-optimization" type="button" role="tab" aria-controls="price-optimization" aria-selected="true">价格优化</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="promotion-linkage-tab" data-bs-toggle="tab" data-bs-target="#promotion-linkage" type="button" role="tab" aria-controls="promotion-linkage" aria-selected="false">促销联动</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="price-monitoring-tab" data-bs-toggle="tab" data-bs-target="#price-monitoring" type="button" role="tab" aria-controls="price-monitoring" aria-selected="false">价格监控</button>
+                </li>
+            </ul>
+
+            <!-- Tab panes -->
+            <div class="tab-content pt-3">
+                <div class="tab-pane active" id="price-optimization" role="tabpanel" aria-labelledby="price-optimization-tab">
+                    <h4>价格优化</h4>
+                    <p class="text-muted">推荐爆品/非爆品定价（爆品降价5%增销量20%，非爆品降价15%清库存）。</p>
+
+                    <!-- 功能实现细化 -->
+                    <div class="card mb-4">
+                        <div class="card-header bg-light" data-bs-toggle="collapse" href="#collapse-price-optimization" role="button" aria-expanded="false" aria-controls="collapse-price-optimization">
+                            <h6 class="mb-0 d-flex justify-content-between">
+                                <span><i class="fa fa-cogs me-2"></i>功能实现细化</span>
+                                <i class="fa fa-chevron-down toggle-icon"></i>
+                            </h6>
+                        </div>
+                        <div class="collapse" id="collapse-price-optimization">
+                            <div class="card-body">
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item">
+                                        <strong>1. 数据输入:</strong>
+                                        <p class="mb-1 small text-muted">模型输入包括：商品当前库存、历史销量、竞品价格、用户活跃度、促销活动日历等。</p>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <strong>2. 价格弹性模型:</strong>
+                                        <p class="mb-1 small text-muted">使用Scikit-learn训练一个价格弹性模型，预测不同价格下商品的可能销量，从而计算出总毛利。</p>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <strong>3. 优化目标与策略:</strong>
+                                        <p class="mb-1 small text-muted">可根据不同策略进行定价：对于爆品，以“毛利最大化”为目标；对于非爆品，以“库存周转率最大化”（即清仓）为目标。</p>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <strong>4. 定价建议与一键执行:</strong>
+                                        <p class="mb-1 small text-muted">系统每日输出各商品的推荐定价，并预测调整后的销量和毛利变化。运营人员确认后，可一键将新价格同步到所有销售平台。</p>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card shadow-sm">
+                        <div class="card-header bg-white">
+                            <h6 class="mb-0"><i class="fa fa-lightbulb-o"></i> 定价优化建议</h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="data-table table table-hover">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th>商品</th>
+                                            <th>策略</th>
+                                            <th>当前价</th>
+                                            <th>建议价</th>
+                                            <th>预期销量变化</th>
+                                            <th>操作</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>复古风连衣裙</td>
+                                            <td><span class="badge bg-success">保毛利</span></td>
+                                            <td>¥199</td>
+                                            <td><span class="text-success">¥189</span></td>
+                                            <td><span class="text-success">+20%</span></td>
+                                            <td><a href="#">采纳</a> <a href="#">忽略</a></td>
+                                        </tr>
+                                        <tr>
+                                            <td>积压款T恤</td>
+                                            <td><span class="badge bg-danger">清库存</span></td>
+                                            <td>¥89</td>
+                                            <td><span class="text-danger">¥69</span></td>
+                                            <td><span class="text-success">+80%</span></td>
+                                            <td><a href="#">采纳</a> <a href="#">忽略</a></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane" id="promotion-linkage" role="tabpanel" aria-labelledby="promotion-linkage-tab">
+                    <h4>促销联动</h4>
+                    <p class="text-muted">自动匹配拼多多团购/抖音秒杀，优先清非爆品。</p>
+
+                    <!-- 功能实现细化 -->
+                    <div class="card mb-4">
+                        <div class="card-header bg-light" data-bs-toggle="collapse" href="#collapse-promo-linkage" role="button" aria-expanded="false" aria-controls="collapse-promo-linkage">
+                            <h6 class="mb-0 d-flex justify-content-between">
+                                <span><i class="fa fa-cogs me-2"></i>功能实现细化</span>
+                                <i class="fa fa-chevron-down toggle-icon"></i>
+                            </h6>
+                        </div>
+                        <div class="collapse" id="collapse-promo-linkage">
+                            <div class="card-body">
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item">
+                                        <strong>1. 促销活动监控:</strong>
+                                        <p class="mb-1 small text-muted">通过API或爬虫监控各大平台的大促活动（如拼多多百亿补贴、抖音秒杀）的报名入口和规则。</p>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <strong>2. 资格匹配与推荐:</strong>
+                                        <p class="mb-1 small text-muted">系统自动将库存中的商品（尤其的积压的非爆品）与活动要求进行匹配，筛选出符合资格的商品。</p>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <strong>3. 收益预测与报名:</strong>
+                                        <p class="mb-1 small text-muted">对于符合资格的商品，系统会预测参加活动可能带来的销量提升和对毛利的影响，并提供一键报名接口。</p>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <strong>4. 自动调价与库存锁定:</strong>
+                                        <p class="mb-1 small text-muted">一旦报名成功，系统会在活动期间自动将商品价格调整为活动价，并根据报名数量锁定相应库存。</p>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card shadow-sm">
+                        <div class="card-header bg-white">
+                            <h6 class="mb-0"><i class="fa fa-link"></i> 可参与的平台大促</h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="data-table table table-hover">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th>平台</th>
+                                            <th>活动名称</th>
+                                            <th>推荐商品</th>
+                                            <th>建议活动价</th>
+                                            <th>预计销量提升</th>
+                                            <th>操作</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><span class="badge" style="background-color: #dc3545; color: white;">拼多多</span></td>
+                                            <td>百亿补贴</td>
+                                            <td>积压款T恤</td>
+                                            <td>¥59</td>
+                                            <td><span class="text-success">+200%</span></td>
+                                            <td><a href="#">报名</a></td>
+                                        </tr>
+                                        <tr>
+                                            <td><span class="badge bg-dark">抖音</span></td>
+                                            <td>直播秒杀</td>
+                                            <td>多巴胺手机壳</td>
+                                            <td>¥19.9</td>
+                                            <td><span class="text-success">+150%</span></td>
+                                            <td><a href="#">报名</a></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane" id="price-monitoring" role="tabpanel" aria-labelledby="price-monitoring-tab">
+                    <h4>价格监控</h4>
+                    <p class="text-muted">自动同步竞品价格，触发调价建议。</p>
+
+                    <!-- 功能实现细化 -->
+                    <div class="card mb-4">
+                        <div class="card-header bg-light" data-bs-toggle="collapse" href="#collapse-price-monitoring" role="button" aria-expanded="false" aria-controls="collapse-price-monitoring">
+                            <h6 class="mb-0 d-flex justify-content-between">
+                                <span><i class="fa fa-cogs me-2"></i>功能实现细化</span>
+                                <i class="fa fa-chevron-down toggle-icon"></i>
+                            </h6>
+                        </div>
+                        <div class="collapse" id="collapse-price-monitoring">
+                            <div class="card-body">
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item">
+                                        <strong>1. 竞品价格数据接入:</strong>
+                                        <p class="mb-1 small text-muted">直接复用“市场端-竞品动态监控”模块抓取的竞品价格数据。</p>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <strong>2. 价格联动规则设置:</strong>
+                                        <p class="mb-1 small text-muted">运营可设置规则，如“始终比竞品A低5%”或“当竞品B价格低于100元时，触发我的调价预警”。</p>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <strong>3. 自动触发调价建议:</strong>
+                                        <p class="mb-1 small text-muted">当监控到竞品价格变动并满足预设规则时，系统会自动生成调价建议，并推送到“价格优化”模块中等待运营审核。</p>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card shadow-sm">
+                        <div class="card-header bg-white">
+                            <h6 class="mb-0"><i class="fa fa-bell-o"></i> 价格监控规则与触发日志</h6>
+                        </div>
+                        <div class="card-body">
+                            <h6>规则列表</h6>
+                            <ul class="list-group mb-3">
+                                <li class="list-group-item">规则1: 我的“复古连衣裙”价格始终比“竞品连衣裙A”低 ¥10。 <a href="#" class="float-end">编辑</a></li>
+                                <li class="list-group-item">规则2: 当“竞品手机壳B”价格低于 ¥25 时，发送预警。 <a href="#" class="float-end">编辑</a></li>
+                            </ul>
+                            <h6>触发日志</h6>
+                            <div style="height: 150px; background-color: #f8f9fa; border: 1px solid #dee2e6; border-radius: 4px; padding: 10px; overflow-y: scroll;">
+                                <p class="small mb-1"><span class="text-warning">[触发]</span> 竞品连衣裙A降价至¥199，已生成我方商品调价至¥189的建议。</p>
+                                <p class="small mb-1"><span class="text-info">[监控]</span> 竞品手机壳B价格为¥29.9，未触发规则。</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Other cards for 动态定价策略 would go here -->
+</div>

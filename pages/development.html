@@ -1,0 +1,51 @@
+<div class="container-fluid p-4">
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+        <h1 class="h2">研发设计辅助</h1>
+    </div>
+    <p class="text-muted">输入设计稿，AI生成模特图/营销图（出图时间<1分钟）。</p>
+    <div class="row mt-4">
+        <div class="col-md-5">
+            <div class="card shadow-sm">
+                <div class="card-header bg-white">
+                    <h6 class="mb-0"><i class="fa fa-magic"></i> AI图片生成器</h6>
+                </div>
+                <div class="card-body">
+                    <div class="mb-3">
+                        <label class="form-label"><strong>上传设计稿</strong></label>
+                        <input class="form-control" type="file">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label"><strong>选择场景</strong></label>
+                        <select class="form-select">
+                            <option>街拍</option>
+                            <option>室内</option>
+                            <option>纯色背景</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label"><strong>输入提示词 (Prompt)</strong></label>
+                        <textarea class="form-control" rows="2">一个亚洲女孩，黑发，在东京街头</textarea>
+                    </div>
+                    <button class="btn btn-primary w-100">生成图片</button>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-7">
+            <div class="card shadow-sm">
+                <div class="card-header bg-white">
+                    <h6 class="mb-0"><i class="fa fa-picture-o"></i> 生成结果</h6>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-6 mb-2">
+                            <img src="https://via.placeholder.com/200x300.png?text=模特图1" class="img-fluid rounded">
+                        </div>
+                        <div class="col-6 mb-2">
+                            <img src="https://via.placeholder.com/200x300.png?text=模特图2" class="img-fluid rounded">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
